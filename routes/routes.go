@@ -10,13 +10,13 @@ import (
 )
 
 func RouteStaff(e *echo.Echo, h staff.HandlerStaffInterface) {
-	staffGroup := e.Group("v1/staff")
+	staffGroup := e.Group("/v1/staff")
 	staffGroup.POST("/register", h.StaffRegister())
 	staffGroup.POST("/login", h.StaffLogin())
 }
 
 func RouteProduct(e *echo.Echo, h product.HandlerProductInterface, jwtService jwt.JWTInterface, staffService staff.ServiceStaffInterface) {
-	productGroup := e.Group("v1/product")
+	productGroup := e.Group("/v1/product")
 	productGroup.POST("", h.Create(), middlewares.AuthMiddleware(jwtService, staffService))
 	productGroup.GET("", h.GetProductByFilters(), middlewares.AuthMiddleware(jwtService, staffService))
 	productGroup.PUT("/:id", h.Update(), middlewares.AuthMiddleware(jwtService, staffService))
@@ -28,7 +28,7 @@ func RouteProduct(e *echo.Echo, h product.HandlerProductInterface, jwtService jw
 }
 
 func RouteCustomer(e *echo.Echo, h customer.HandlerCustomerInterface, jwtService jwt.JWTInterface, staffService staff.ServiceStaffInterface) {
-	customerGroup := e.Group("v1/customer")
+	customerGroup := e.Group("/v1/customer")
 	customerGroup.POST("/register", h.CustomerRegister(), middlewares.AuthMiddleware(jwtService, staffService))
 	customerGroup.GET("", h.GetCustomer(), middlewares.AuthMiddleware(jwtService, staffService))
 }

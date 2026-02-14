@@ -20,13 +20,17 @@ func InitDatabase() (*sqlx.DB, error) {
 	)
 
 	db, err := sqlx.Connect("pgx", dsn)
+	if err != nil {
+    return nil, err
+	}
 
 	db.SetMaxOpenConns(20)
 	db.SetMaxIdleConns(10)
 
 	logrus.Info("connected to database")
 
-	return db, err
+	return db, nil
+
 }
 
 // migration up
